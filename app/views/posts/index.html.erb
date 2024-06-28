@@ -1,16 +1,25 @@
 <div id="map" style="height: 600px;"></div>
 
 <script>
-  // 地図を初期化する関数
   function initMap() {
-    // 地図のオプション
+    // 地図要素を取得する
+    const mapElement = document.getElementById('map');
+
     const mapOptions = {
-      center: { lat: 35.6803997, lng: 139.7690174 }, // 地図の初期表示位置（東京）
-      zoom: 10 // ズームレベル
+      center: { lat: 35.6803997, lng: 139.7690174 },
+      zoom: 10
     };
 
-    // 地図を指定した要素に表示
-    const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+    const map = new google.maps.Map(mapElement, mapOptions);
+
+    // マーカーを追加（Postの情報からマーカーを追加する）
+    <% @posts.each do |post| %>
+      new google.maps.Marker({
+        position: {lat: <%= post.latitude %>, lng: <%= post.longitude %>}, 
+        map: map,
+        title: '<%= j post.title %>'
+      });
+    <% end %>
   }
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&callback=initMap"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= ENV["GOOGLE_MAPS_API_KEY"] %>&callback=initMap" async defer></script>

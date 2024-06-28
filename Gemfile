@@ -73,3 +73,4 @@ end
 
 gem 'geocoder'
 gem 'dotenv-rails'
+gem 'faker'
